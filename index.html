@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Portfolio</title>
+    
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- 1. KODE CSS (DARI FILE style.css) -->
+    <style>
+        :root {
+            --primary: #7f1d1d;
+            --dark: #64748B;
+            --dark2: #a855f7;
+            --white: #1e293b;
+            --gray: #991b1b;
+            --card: #64748B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark); 
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 20px;
+        }
+
+        /* NAVBAR */
+        header {
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.25);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 15px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0%;
+            height: 2px;
+            background: var(--primary);
+            transition: 0.4s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* HERO */
+        .hero {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 8%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: var(--primary);
+            filter: blur(180px);
+            opacity: 0.15;
+            border-radius: 50%;
+            top: -250px;
+            right: -150px;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* PENTING: Style awal untuk Scroll Reveal (Digabungkan dari JS logic) */
+        .hero-text, .hero-image, .about-image, .about-text, .service-card, .skill, .contact-box {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        /* Class .show ditambahkan oleh JavaScript saat elemen terlihat */
+        .show {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .hero-text h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .hero-text h1 {
+            font-size: 70px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 35px;
+            max-width: 550px;
+        }
+
+        .hero-btn {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 34px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.4s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: black;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 192, 203, 0.4);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: black;
+        }
+
+        /* HERO IMAGE */
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .circle {
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 192, 203, 0.3),
+                rgba(255, 255, 255, 0.05)
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .circle img {
+            width: 90%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* SECTION */
+        section {
+            padding: 100px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .section-title p {
+            color: var(--gray);
+        }
+
+        /* ABOUT */
+        .about-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 30px;
+        }
+
+        .about-text h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: var(--gray);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        /* SERVICES */
+        .services {
+            background: var(--dark2);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card);
+            padding: 40px 30px;
+            border-radius: 25px;
+            transition: 0.4s;
+            border: 1px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+        }
+
+        .service-card i {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* SKILLS */
+        .skill {
+            margin-bottom: 30px;
+        }
+
+        .skill h4 {
+            margin-bottom: 12px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 12px;
+            background: #1e293b;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #8000
+            );
+            /* Perlu inline style width di HTML untuk melihat hasilnya */
+        }
+
+        /* CONTACT */
+        .contact-box {
+            text-align: center;
+        }
+
+        .contact-box p {
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .social {
+            margin-top: 30px;
+        }
+
+        .social a {
+            width: 55px;
+            height: 55px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            transition: 0.4s;
+            font-size: 20px;
+        }
+
+        .social a:hover {
+            background: var(--primary);
+            color: black;
+            transform: translateY(-8px);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: black;
+            color: var(--gray);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-text h1 {
+                font-size: 50px;
+            }
+            .circle {
+                width: 320px;
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            .hero {
+                text-align: center;
+            }
+            .hero-btn {
+                justify-content: center;
+            }
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            .section-title h2 {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">Muhamad Aditiya Dinezad</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Activities</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-text">
+                <!-- ID typing digunakan oleh JS -->
+                <h3>Halo, saya <span id="typing"></span></h3>
+                <h1>Muhamad <span>Aditiya </span>Dinezad</h1>
+                <p>Saya pecinta olahraga lari dan sepak bola yang fokus pada disiplin, kerja sama tim, serta semangat kompetitif untuk terus berkembang di dalam maupun luar lapangan.</p>
+                <div class="hero-btn">
+                    <a href="#contact" class="btn btn-primary">Contact Adit</a>
+                    <a href="#about" class="btn btn-outline">Ini Diri Saya</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="circle">
+                       <img src="https://i.ibb.co/Q3R8HxcW/IMG-20260520-151653.jpg" alt="foto"> 
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="section-title">
+            <h2>Diri <span>Saya</span></h2>
+            <p>Student athlete & sport enthusiast</p>
+        </div>
+        <div class="about-container">
+            <div class="about-image">
+       <img src="https://i.ibb.co/MkZKvtp4/IMG-20260519-221554.png" alt="foto">
+                <p>
+                  Memulai melatih mental dengan cara olaharaga.
+                </p>
+                
+
+             
+        
+            <div class="about-text">
+                <h3>
+                    pelajar yang menyukai lari dan sepak bola.
+                </h3>
+                <p>
+                    Saya adalah seorang murid yang menyukai dunia lari dan sepak bola, menjadikan olahraga sebagai cara untuk melatih mental, konsistensi dan sportivitas.
+                </p>
+                <p>
+                    Bagi saya, olahraga bukan hanya tentang kemenangan, tetapi bagaimana setiap langkah dan perjuangan membangun semangat, disiplin, dan pengalaman yang kuat.
+                </p>
+                <a href="http://localhost:8158/please.html" class="btn btn-primary">
+                    Tentang Adit
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="section-title">
+            <h2>My <span>Activitiez</span></h2>
+            <p>Semangat olahraga & pengembangan diri</p>
+        </div>
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-person-running"></i>
+                <h3>Running</h3>
+                <p>
+                    Melatih stamina, fokus, dan konsistensi melalui olahraga lari
+                </p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-futbol"></i>
+                <h3>Football</h3>
+                <p>
+                    Mengembangkan teamwork, strategi, dan sportivitas di lapangan
+                </p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-shield-heart"></i>
+                <h3>Discipline</h3>
+                <p>
+                    Menjaga semangat latihan,disiplin waktu dan mental berkembang setiap hari
+                </p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-dumbbell"></i>
+                <h3>Workout</h3>
+                <p>
+                    Meningkatkan kekuatan fisik dan menjaga kebugaran tubuh
+                </p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-fire"></i>
+                <h3>Motivation</h3>
+                <p>
+                    Menumbuhkan semangat dan mental kuat untuk terus berkembang
+                </p>
+            </div>
+           <div class="service-card">
+                <i class="fa-solid fa-handshake"></i>
+                <h3>Teamwork</h3>
+                <p>
+                    Belajar kerja sama, komunikasi, dan saling mendukung dalam tim
+                </p>
+            </div> 
+            <div class="service-card">
+    <i class="fa-solid fa-medal"></i>
+    <h3>Achievement</h3>
+    <p>
+        Berusaha meraih prestasi dan pengalaman terbaik melalui olahraga
+    </p>
+</div>
+
+<div class="service-card">
+    <i class="fa-solid fa-heart-pulse"></i>
+    <h3>Healthy Life</h3>
+    <p>
+        Menjaga kesehatan tubuh dan pola hidup aktif setiap hari
+    </p>
+</div>
+
+<div class="service-card">
+    <i class="fa-solid fa-brain"></i>
+    <h3>Mentality</h3>
+    <p>
+        Melatih mental kuat, percaya diri, dan fokus menghadapi tantangan
+    </p>
+</div>
+
+<div class="service-card">
+    <i class="fa-solid fa-bolt"></i>
+    <h3>Energy</h3>
+    <p>
+        Menjaga semangat dan energi positif dalam aktivitas olahraga
+    </p>
+</div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="section-title">
+            <h2>My <span>Skills</span></h2>
+            <p>Professional creative abilities</p>
+        </div>
+        
+        <div class="skill">
+            <h4>Running</h4>
+            <div class="progress">
+                <span style="width:75%"></span>
+            </div>
+        </div>
+        
+        <div class="skill">
+            <h4>football</h4>
+            <div class="progress">
+                <span style="width:70%"></span>
+            </div>
+        </div>
+        
+        <div class="skill">
+            <h4>Discipline</h4>
+            <div class="progress">
+                <span style="width:99%"></span>
+            </div>
+        </div>
+        
+        <div class="skill">
+            <h4>workout</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>Motivation</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>Teamwork</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>Achievement</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>healthy life</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>Mentality</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+        <div class="skill">
+            <h4>Energy</h4>
+            <div class="progress">
+                <span style="width:20%"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="section-title">
+            <h2>Contact <span>Me</span></h2>
+            <p>let's create something amazing together </p>
+        </div>
+        <div class="contact-box">
+            <p>Email : aditiyadinezad21@gmail.com</p>
+            <p>Instagram : __aditttttt___</p>
+            <p>WhatsApp : 08**********</p>
+            <div class="social">
+                <a href="https://www.instagram.com/__aditttttt___?igsh=MWFnOGt1N2g0a3FoaQ==">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/@adityadinezad?si=Y8roCnPwvR4CdwXL">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://www.tiktok.com/@mhmdadit_?_r=1&_t=ZS-96cXbRyPvik">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://wa.me/qr/WDANVYZMM2X4L1">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Muhamad Aditiya Dinezad—Sport Portfolio
+    </footer>
+
+</body>
+</html>
+
+    <!-- 2. KODE JAVASCRIPT (DARI FILE script.js) -->
+    <script>
+        // 1. NAVBAR EFFECT
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                header.style.background = "#050816";
+                header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.5)";
+            } else {
+                header.style.background = "rgba(0,0,0,0.25)";
+                header.style.boxShadow = "none";
+            }
+        });
+
+        // 2. TYPING EFFECT
+        const texts = [
+            "Muhamad Aditiya Dinezad",
+            "Pecinta olahraga",
+            "Sport students",
+            "Kelas X tkj 2"
+        ];
+
+        let index = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById("typing");
+
+        if (typingElement) {
+            function typeEffect() {
+                const currentText = texts[index];
+                
+                if (isDeleting) {
+                    typingElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typeSpeed = 100;
+
+                if (isDeleting) {
+                    typeSpeed /= 2;
+                }
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    typeSpeed = 1500;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    index++;
+                    if (index >= texts.length) {
+                        index = 0;
+                    }
+                    typeSpeed = 500;
+                }
+
+                setTimeout(typeEffect, typeSpeed);
+            }
+
+            document.addEventListener("DOMContentLoaded", typeEffect);
+        }
+
+        // 3. SCROLL REVEAL
+        const reveals = document.querySelectorAll(
+            ".hero-text, .hero-image, .about-image, .about-text, .service-card, .skill, .contact-box"
+        );
+
+        function revealOnScroll() {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            reveals.forEach((element) => {
+                const elementTop = element.getBoundingClientRect().top;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
+
+        // 4. PARALLAX EFFECT
+        window.addEventListener("scroll", () => {
+            const scrollValue = window.scrollY;
+            const heroImage = document.querySelector(".hero-image");
+            
+            if (heroImage) {
+                // Catatan: Ini mungkin menimpa animasi 'float' CSS saat discroll
+                heroImage.style.transform = `translateY(${scrollValue * 0.15}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
